@@ -1,0 +1,2 @@
+rootProject.name='VilleinWebPro'
+include ':app'
