@@ -3,18 +3,22 @@ plugins {
 }
 
 android {
-    namespace 'com.villein.app'
-    compileSdk 34
+    namespace "com.example.app"   // ✅ MUST (এইটা ছাড়া build হবে না)
+
+    compileSdk 33
 
     defaultConfig {
-        applicationId "com.villein.app"
+        applicationId "com.example.app"
         minSdk 21
-        targetSdk 34
+        targetSdk 33
         versionCode 1
         versionName "1.0"
     }
 
     buildTypes {
+        debug {
+            minifyEnabled false
+        }
         release {
             minifyEnabled false
         }
