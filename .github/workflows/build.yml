@@ -19,11 +19,26 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Grant permission
-        run: chmod +x gradlew
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Accept Licenses
+        run: yes | sdkmanager --licenses
+
+      - name: Install Build Tools
+        run: |
+          sdkmanager "platform-tools" \
+                     "platforms;android-33" \
+                     "build-tools;33.0.2"
+
+      - name: Fix AAPT2 Crash (IMPORTANT)
+        run: |
+          echo "org.gradle.jvmargs=-Xmx2048m" >> gradle.properties
+          echo "org.gradle.daemon=false" >> gradle.properties
+          echo "org.gradle.workers.max=1" >> gradle.properties
 
       - name: Build APK
-        run: ./gradlew assembleDebug
+        run: ./gradlew assembleDebug --no-daemon --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v3
