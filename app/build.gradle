@@ -3,8 +3,16 @@ plugins {
 }
 
 android {
-    namespace "com.example.app"   // ✅ MUST (এইটা ছাড়া build হবে না)
+    namespace "com.example.app"
 
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.example.app"
+        minSdk 21
+        targetSdk 34
+    }
+}
     compileSdk 33
 
     defaultConfig {
