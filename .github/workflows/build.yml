@@ -1,5 +1,7 @@
 name: Build APK
 
+name: Build APK
+
 on:
   push:
     branches:
@@ -31,7 +33,7 @@ jobs:
                      "platforms;android-33" \
                      "build-tools;33.0.2"
 
-      - name: Fix AAPT2 Crash (IMPORTANT)
+      - name: Fix AAPT2 Crash
         run: |
           echo "org.gradle.jvmargs=-Xmx2048m" >> gradle.properties
           echo "org.gradle.daemon=false" >> gradle.properties
