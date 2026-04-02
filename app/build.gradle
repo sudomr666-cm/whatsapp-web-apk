@@ -1,12 +1,28 @@
+plugins {
+    id 'com.android.application'
+}
+
 android {
-    namespace "com.example.whatsappweb"
+    namespace 'com.example.web'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.example.whatsappweb"
+        applicationId "com.example.web"
         minSdk 21
         targetSdk 34
         versionCode 1
         versionName "1.0"
     }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+        debug {
+            minifyEnabled false
+        }
+    }
+}
+
+dependencies {
 }
