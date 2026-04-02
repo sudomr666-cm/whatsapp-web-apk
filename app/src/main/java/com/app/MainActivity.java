@@ -1,42 +1,52 @@
 package com.app;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.webkit.*;
-import android.view.View;
+import android.widget.Button;
 
-public class MainActivity extends Activity {
+import androidx.appcompat.app.AppCompatActivity;
 
-    WebView webView;
+import okhttp3.*;
+
+import java.io.IOException;
+
+public class MainActivity extends AppCompatActivity {
+
+    String SERVER = "http://192.168.0.105:3000/send"; // 👈 CHANGE
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        webView = new WebView(this);
-        setContentView(webView);
+        Button btn = findViewById(R.id.sendBtn);
 
-        WebSettings s = webView.getSettings();
+        btn.setOnClickListener(v -> send());
+    }
 
-        s.setJavaScriptEnabled(true);
-        s.setDomStorageEnabled(true);
-        s.setDatabaseEnabled(true);
-        s.setCacheMode(WebSettings.LOAD_DEFAULT);
-        s.setLoadsImagesAutomatically(true);
-        s.setUseWideViewPort(true);
-        s.setLoadWithOverviewMode(true);
+    void send() {
 
-        s.setUserAgentString(
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36"
+        OkHttpClient client = new OkHttpClient();
+
+        String json = "{\"number\":\"8801XXXXXXXXX\",\"message\":\"Hello Boss\"}";
+
+        RequestBody body = RequestBody.create(
+                json,
+                MediaType.get("application/json")
         );
 
-        CookieManager cm = CookieManager.getInstance();
-        cm.setAcceptCookie(true);
-        cm.setAcceptThirdPartyCookies(webView, true);
+        Request request = new Request.Builder()
+                .url(SERVER)
+                .post(body)
+                .build();
 
-        webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-        webView.setWebViewClient(new WebViewClient());
+        client.newCall(request).enqueue(new Callback() {
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
 
-        webView.loadUrl("https://web.whatsapp.com");
+            public void onResponse(Call call, Response response) throws IOException {
+                System.out.println(response.body().string());
+            }
+        });
     }
 }
